@@ -2,7 +2,9 @@
   "name": "@my-business/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "deploy:main-app": "firebase deploy -p dist/apps/main-app"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~16.2.0",
@@ -14,6 +16,7 @@
     "@angular/platform-browser-dynamic": "~16.2.0",
     "@angular/router": "~16.2.0",
     "@nx/angular": "17.0.2",
+    "firebase": "^10.5.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
