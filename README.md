@@ -1,7 +1,7 @@
 # My Bussiness
 
 ## Tech Stack
-!(stack.png)
+![Application stack](stack.png)
 
 ## :arrow_down: Denpendencies
 
