@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: My Business
+  description: |-
+    An application that helps small business companies with their daily transactions.
+  version: 0.0.1
+externalDocs:
+  description: Find out more about My Business
+  url: https://github.com/dtorrensf/my-business/blob/main/about.md
+servers:
+  - url: https://localhost:8080/api
+tags:
+  - name: users
+    description: Users administration
+  - name: companies
+    description: Companies administration
+  - name: customers
+    description: Customers administration
+paths:
+  /users:
+    post:
+      description: Creates a new user.
+      summary: Creates a new user.
+      operationId: createUser
+      tags:
+      - users
+      requestBody:
+        description: New user details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        201:
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Id'
+        400:
+          description: Not valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Id:
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+          example: 22
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          example: 1
+    Error:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: Not valid request
