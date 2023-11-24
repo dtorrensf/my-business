@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/NewUser'
         required: true
       responses:
         201:
@@ -40,6 +40,90 @@ paths:
                 $ref: '#/components/schemas/Id'
         400:
           description: Not valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{userId}:
+    get:
+      description: Get user details.
+      summary: Gets the user details.
+      operationId: getUser
+      tags:
+      - users
+      parameters:
+        - name: userId
+          in: query
+          description: The user id value
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Update user details.
+      summary: Update the user details.
+      operationId: updateUser
+      tags:
+      - users
+      parameters:
+        - name: userId
+          in: query
+          description: The user id value
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: Delete user
+      summary: Delete the user
+      operationId: deleteUser
+      tags:
+      - users
+      parameters:
+        - name: userId
+          in: query
+          description: The user id value
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        201:
+          description: User deleted succesfully
+        404:
+          description: User not Found
           content:
             application/json:
               schema:
@@ -70,19 +154,23 @@ components:
           type: string
           example: James
         email:
-          type: string
+          type: string  
           example: john@email.com
-        password:
-          type: string
-          example: '12345'
         phone:
           type: string
           example: '12345'
-        userStatus:
-          type: integer
-          description: User Status
-          format: int32
-          example: 1
+    NewUser:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          properties:
+            password:
+              type: string
+              example: '12345'
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
     Error:
       type: object
       properties:
