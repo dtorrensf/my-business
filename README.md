@@ -19,6 +19,13 @@ An application that helps small business companies to control their sales and or
 
 It's recommended to have [**_Docker_**](https://www.docker.com/) installed in your local environment to help you with the application development.
 
+### Recommended developing tools
+
+- [VSCode](https://code.visualstudio.com/)
+- [Intellij](https://www.jetbrains.com/idea/download)
+- [Swagger Editor](https://editor.swagger.io/)
+- [DBeaver](https://dbeaver.io/download/)
+
 ## myBusinessApp
 
 Is the application front-end, developed with [**_Angular_**](https://angular.dev/) framework.
