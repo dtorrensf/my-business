@@ -17,6 +17,33 @@ tags:
   - name: customers
     description: Customers administration
 paths:
+  /login:
+    post:
+      description: SignIn a user.
+      summary: Validates a user and return the access token.
+      operationId: login
+      tags:
+      - users
+      requestBody:
+        description: New user details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredential'
+        required: true
+      responses:
+        200:
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        401:
+          description: Not authorized user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /users:
     post:
       description: Creates a new user.
@@ -51,9 +78,11 @@ paths:
       operationId: getUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
-          in: query
+          in: path
           description: The user id value
           required: true
           schema:
@@ -78,9 +107,11 @@ paths:
       operationId: updateUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
-          in: query
+          in: path
           description: The user id value
           required: true
           schema:
@@ -111,9 +142,11 @@ paths:
       operationId: deleteUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
-          in: query
+          in: path
           description: The user id value
           required: true
           schema:
@@ -137,6 +170,21 @@ components:
           type: integer
           format: int64
           example: 22
+    Token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: eyÑAJDFOAMCROAOAÑSDNVOAENVEOAN
+    UserCredential:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@email.com
+        password:
+          type: string
+          example: anyPassword
     User:
       type: object
       properties:
@@ -146,7 +194,7 @@ components:
           example: 10
         username:
           type: string
-          example: theUser
+          example: username
         firstName:
           type: string
           example: John
@@ -167,13 +215,14 @@ components:
             password:
               type: string
               example: '12345'
-    Users:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
     Error:
       type: object
       properties:
         message: 
           type: string
           example: Not valid request
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
