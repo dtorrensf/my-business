@@ -194,7 +194,7 @@ components:
           example: 10
         username:
           type: string
-          example: theUser
+          example: username
         firstName:
           type: string
           example: John
