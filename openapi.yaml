@@ -78,6 +78,8 @@ paths:
       operationId: getUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
           in: path
@@ -105,6 +107,8 @@ paths:
       operationId: updateUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
           in: path
@@ -138,6 +142,8 @@ paths:
       operationId: deleteUser
       tags:
       - users
+      security:
+      - bearerAuth: []
       parameters:
         - name: userId
           in: path
@@ -209,13 +215,14 @@ components:
             password:
               type: string
               example: '12345'
-    Users:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
     Error:
       type: object
       properties:
         message: 
           type: string
           example: Not valid request
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
