@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCredential'
+              $ref: '#/components/schemas/UserCredentialModel'
         required: true
       responses:
         200:
@@ -37,13 +37,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Token'
+                $ref: '#/components/schemas/TokenModel'
         401:
           description: Not authorized user
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorModel'
   /users:
     post:
       description: Creates a new user.
@@ -56,7 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewUser'
+              $ref: '#/components/schemas/NewUserModel'
         required: true
       responses:
         201:
@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorModel'
   /users/{userId}:
     get:
       description: Get user details.
@@ -94,13 +94,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserModel'
         404:
           description: User not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorModel'
     patch:
       description: Update user details.
       summary: Update the user details.
@@ -122,20 +122,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserModel'
       responses:
         200:
           description: User details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserModel'
         404:
           description: User not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorModel'
     delete:
       description: Delete user
       summary: Delete the user
@@ -160,7 +160,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorModel'
 components:
   schemas:
     Id:
@@ -170,13 +170,13 @@ components:
           type: integer
           format: int64
           example: 22
-    Token:
+    TokenModel:
       type: object
       properties:
         access_token:
           type: string
           example: eyÑAJDFOAMCROAOAÑSDNVOAENVEOAN
-    UserCredential:
+    UserCredentialModel:
       type: object
       properties:
         email:
@@ -185,7 +185,7 @@ components:
         password:
           type: string
           example: anyPassword
-    User:
+    UserModel:
       type: object
       properties:
         id:
@@ -207,15 +207,15 @@ components:
         phone:
           type: string
           example: '12345'
-    NewUser:
+    NewUserModel:
       allOf:
-        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/UserModel"
         - type: object
           properties:
             password:
               type: string
               example: '12345'
-    Error:
+    ErrorModel:
       type: object
       properties:
         message: 
