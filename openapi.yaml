@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Id'
+                $ref: '#/components/schemas/IdModel'
         400:
           description: Not valid request
           content:
@@ -163,7 +163,7 @@ paths:
                 $ref: '#/components/schemas/ErrorModel'
 components:
   schemas:
-    Id:
+    IdModel:
       type: object
       properties:
         id: 
