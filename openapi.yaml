@@ -188,10 +188,6 @@ components:
     UserModel:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
         username:
           type: string
           example: username
