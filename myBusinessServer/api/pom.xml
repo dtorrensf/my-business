@@ -42,7 +42,6 @@
 			<version>${jakarta.version}</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>
@@ -66,8 +65,8 @@
                                 ../openapi.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>com.business.backend.api.api</apiPackage>
-                            <modelPackage>com.business.backend.api.model</modelPackage>
+                            <apiPackage>com.business.backend.api</apiPackage>
+                            <modelPackage>com.business.backend.model</modelPackage>
                             <configOptions>
 								<openApiNullable>false</openApiNullable>
 								<interfaceOnly>true</interfaceOnly>
