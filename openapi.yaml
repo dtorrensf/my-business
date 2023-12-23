@@ -38,6 +38,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TokenModel'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
         401:
           description: Not authorized user
           content:
@@ -61,10 +67,6 @@ paths:
       responses:
         201:
           description: User created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdModel'
         400:
           description: Not valid request
           content:

@@ -39,36 +39,41 @@
       <version>${jakarta.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.business.backend</groupId>
+      <artifactId>domain</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
-    <build>
-      <plugins>
-        <plugin>
-          <groupId>org.openapitools</groupId>
-          <artifactId>openapi-generator-maven-plugin</artifactId>
-          <version>${openapi.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>generate</goal>
-              </goals>
-              <configuration>
-                <inputSpec>
-                  ../openapi.yaml
-                </inputSpec>
-                <generatorName>spring</generatorName>
-                <apiPackage>com.business.backend.api.generated.api</apiPackage>
-                <modelPackage>com.business.backend.api.generated.model</modelPackage>
-                <configOptions>
-                  <openApiNullable>false</openApiNullable>
-                  <interfaceOnly>true</interfaceOnly>
-                  <useSpringBoot3>true</useSpringBoot3>
-                </configOptions>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>
+                ../openapi.yaml
+              </inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>com.business.backend.api.generated.api</apiPackage>
+              <modelPackage>com.business.backend.api.generated.model</modelPackage>
+              <configOptions>
+                <openApiNullable>false</openApiNullable>
+                <interfaceOnly>true</interfaceOnly>
+                <useSpringBoot3>true</useSpringBoot3>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
