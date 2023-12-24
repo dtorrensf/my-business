@@ -67,6 +67,10 @@ paths:
       responses:
         201:
           description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdModel'
         400:
           description: Not valid request
           content:

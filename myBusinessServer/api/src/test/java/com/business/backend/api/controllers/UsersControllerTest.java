@@ -4,6 +4,7 @@ package com.business.backend.api.controllers;
 import com.business.backend.api.generated.model.NewUserModel;
 import com.business.backend.api.mappers.UserDTOMapper;
 import com.business.backend.domain.dtos.UserDTO;
+import com.business.backend.domain.exceptions.MyBusinessException;
 import com.business.backend.domain.ports.in.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,7 +68,8 @@ class UsersControllerTest {
         .when(this.userMapper)
         .convert(any(NewUserModel.class));
 
-    doNothing()
+    var expectedException = new MyBusinessException("");
+    doThrow(expectedException)
         .when(userService)
         .createUser(user);
 
