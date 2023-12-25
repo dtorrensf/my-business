@@ -2,11 +2,10 @@ package com.business.backend.api.controllers;
 
 
 import com.business.backend.api.generated.api.UsersApi;
-import com.business.backend.api.generated.model.ErrorModel;
 import com.business.backend.api.generated.model.IdModel;
 import com.business.backend.api.generated.model.NewUserModel;
+import com.business.backend.api.generated.model.UserModel;
 import com.business.backend.api.mappers.UserDTOMapper;
-import com.business.backend.domain.exceptions.MyBusinessException;
 import com.business.backend.domain.ports.in.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,16 +20,28 @@ public class UsersController implements UsersApi {
 
   private final UserService service;
 
+
+  // Todo: add exception handler class to manage all MyBusinessException
   @Override
   public ResponseEntity<IdModel> createUser(NewUserModel newUserModel) {
     var user = this.mapper.convert(newUserModel);
-    try {
-      this.service.createUser(user);
-    } catch (MyBusinessException e) {
-      var error = new ErrorModel();
-      error.message(e.getMessage());
-      return ResponseEntity.badRequest().body(error);
-    }
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    this.service.createUser(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new IdModel());
+  }
+
+  @Override
+  public ResponseEntity<Void> deleteUser(Long userId) {
+    return UsersApi.super.deleteUser(userId);
+  }
+
+  @Override
+  public ResponseEntity<UserModel> getUser(Long userId) {
+    return UsersApi.super.getUser(userId);
+  }
+
+  @Override
+  public ResponseEntity<UserModel> updateUser(Long userId, UserModel userModel) {
+    return UsersApi.super.updateUser(userId, userModel);
   }
 }

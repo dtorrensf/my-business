@@ -68,7 +68,7 @@ class UsersControllerTest {
         .when(this.userMapper)
         .convert(any(NewUserModel.class));
 
-    var expectedException = new MyBusinessException("");
+    var expectedException = new MyBusinessException("User Creation", "The user user@mail.com already exists!");
     doThrow(expectedException)
         .when(userService)
         .createUser(user);
