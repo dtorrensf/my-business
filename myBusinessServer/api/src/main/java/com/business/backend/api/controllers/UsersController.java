@@ -20,19 +20,23 @@ public class UsersController implements UsersApi {
 
   private final UserService service;
 
-
-  // Todo: add exception handler class to manage all MyBusinessException
   @Override
   public ResponseEntity<IdModel> createUser(NewUserModel newUserModel) {
     var user = this.mapper.convert(newUserModel);
+    var id = this.service.createUser(user);
 
-    this.service.createUser(user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(new IdModel());
+    var idModel = new IdModel();
+    idModel.setId(id);
+
+    return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(idModel);
   }
 
   @Override
   public ResponseEntity<Void> deleteUser(Long userId) {
-    return UsersApi.super.deleteUser(userId);
+    this.service.deleteUser(userId);
+    return ResponseEntity.noContent().build();
   }
 
   @Override

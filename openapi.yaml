@@ -159,8 +159,14 @@ paths:
             type: integer
             format: int64
       responses:
-        201:
+        204:
           description: User deleted succesfully
+        400:
+          description: Not valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
         404:
           description: User not Found
           content:
@@ -220,6 +226,9 @@ components:
     ErrorModel:
       type: object
       properties:
+        error: 
+          type: string
+          example: NOT_FOUND-ITEM
         message: 
           type: string
           example: Not valid request
