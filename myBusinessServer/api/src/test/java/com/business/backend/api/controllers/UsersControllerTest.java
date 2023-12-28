@@ -2,6 +2,7 @@ package com.business.backend.api.controllers;
 
 
 import com.business.backend.api.generated.model.NewUserModel;
+import com.business.backend.api.generated.model.UserModel;
 import com.business.backend.api.mappers.UserDTOMapper;
 import com.business.backend.domain.dtos.UserDTO;
 import com.business.backend.domain.exceptions.DuplicatedItemException;
@@ -19,8 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,14 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UsersControllerTest {
 
   private static final String BASE_URL = "/users";
-  private static final String USER = "{\n" +
-      "  \"username\": \"username\",\n" +
-      "  \"firstName\": \"John\",\n" +
-      "  \"lastName\": \"James\",\n" +
-      "  \"email\": \"john@email.com\",\n" +
-      "  \"phone\": \"12345\",\n" +
-      "  \"password\": \"12345\"\n" +
-      "}";
+  private static final String USER = """
+      {
+        "username": "username",
+        "firstName": "John",
+        "lastName": "James",
+        "email": "john@email.com",
+        "phone": "12345",
+        "password": "12345"
+      }""";
+  private static final String USER_NOT_FOUND = "{\"error\":\"NOT_FOUND-USER\",\"message\":\"The user with id: 1 doesn't exists!\"}";
   private static final Long ID = 1L;
 
   @MockBean
@@ -154,15 +156,13 @@ class UsersControllerTest {
 
   @Test
   @SneakyThrows
-  @DisplayName("Should Return NOT_FOUND due to valid user")
+  @DisplayName("Should Return NOT_FOUND due to not existent user")
   void shouldDeleteUserReturnNotFound() {
     // Given
     var exception = new NotFoundItemException(ErrorItemEnum.USER, "The user with id: 1 doesn't exists!");
     doThrow(exception)
         .when(userService)
         .deleteUser(ID);
-
-    var expectedContent = "{\"error\":\"NOT_FOUND-USER\",\"message\":\"The user with id: 1 doesn't exists!\"}";
 
     // When
     mockMvc.perform(
@@ -171,6 +171,111 @@ class UsersControllerTest {
         )
         // Then
         .andExpect(status().is(404))
+        .andExpect(content().json(USER_NOT_FOUND));
+  }
+
+  @Test
+  @SneakyThrows
+  @DisplayName("Should Return OK due to valid user")
+  void shouldUpdateUserDetails() {
+    // Given
+    var user = mock(UserDTO.class);
+
+    doReturn(user)
+        .when(userMapper)
+        .convert(any(UserModel.class));
+
+    doNothing()
+        .when(userService)
+        .updateUser(user);
+
+    // When
+    mockMvc.perform(
+            patch(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(USER)
+        )
+        // Then
+        .andExpect(status().is(200));
+  }
+
+  @Test
+  @SneakyThrows
+  @DisplayName("Should Return NOT_FOUND due to not existent user")
+  void shouldUpdateUserReturnNotFound() {
+    // Given
+    var user = mock(UserDTO.class);
+
+    doReturn(user)
+        .when(userMapper)
+        .convert(any(UserModel.class));
+
+    var exception = new NotFoundItemException(ErrorItemEnum.USER, "The user with id: 1 doesn't exists!");
+    doThrow(exception)
+        .when(userService)
+        .updateUser(user);
+
+    // When
+    mockMvc.perform(
+            patch(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(USER)
+        )
+        // Then
+        .andExpect(status().is(404))
+        .andExpect(content().json(USER_NOT_FOUND));
+  }
+
+  @Test
+  @SneakyThrows
+  @DisplayName("Should Return user")
+  void shouldGetUserReturnUser() {
+    // Given
+    var user = mock(UserDTO.class);
+    doReturn(user)
+        .when(userService)
+        .getUser(ID);
+
+    var userModel = new UserModel();
+    userModel.email("john@email.com");
+    userModel.firstName("John");
+    userModel.lastName("James");
+    userModel.phone("12345");
+    userModel.username("username");
+
+    doReturn(userModel)
+        .when(userMapper)
+        .convert(user);
+
+    var expectedContent = "{\"username\": \"username\", \"firstName\": \"John\", \"lastName\": \"James\", \"email\": \"john@email.com\", \"phone\": \"12345\"}";
+
+    // When
+    mockMvc.perform(
+            get(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().is(200))
         .andExpect(content().json(expectedContent));
+  }
+
+  @Test
+  @SneakyThrows
+  @DisplayName("Should Return user NOT_FOUND")
+  void shouldGetUserReturnNotFound() {
+    // Given
+    var exception = new NotFoundItemException(ErrorItemEnum.USER, "The user with id: 1 doesn't exists!");
+    doThrow(exception)
+        .when(userService)
+        .getUser(ID);
+
+    // When
+    mockMvc.perform(
+            get(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        // Then
+        .andExpect(status().is(404))
+        .andExpect(content().json(USER_NOT_FOUND));
   }
 }

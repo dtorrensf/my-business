@@ -41,11 +41,16 @@ public class UsersController implements UsersApi {
 
   @Override
   public ResponseEntity<UserModel> getUser(Long userId) {
-    return UsersApi.super.getUser(userId);
+    var user = this.service.getUser(userId);
+    return ResponseEntity.ok(
+        this.mapper.convert(user)
+    );
   }
 
   @Override
   public ResponseEntity<UserModel> updateUser(Long userId, UserModel userModel) {
-    return UsersApi.super.updateUser(userId, userModel);
+    var user = this.mapper.convert(userModel);
+    this.service.updateUser(user);
+    return ResponseEntity.ok().build();
   }
 }
