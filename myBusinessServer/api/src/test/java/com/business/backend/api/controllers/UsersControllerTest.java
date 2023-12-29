@@ -3,7 +3,7 @@ package com.business.backend.api.controllers;
 
 import com.business.backend.api.generated.model.NewUserModel;
 import com.business.backend.api.generated.model.UserModel;
-import com.business.backend.api.mappers.UserDTOMapper;
+import com.business.backend.api.mappers.UserMapper;
 import com.business.backend.domain.dtos.UserDTO;
 import com.business.backend.domain.exceptions.DuplicatedItemException;
 import com.business.backend.domain.exceptions.ErrorItemEnum;
@@ -41,7 +41,7 @@ class UsersControllerTest {
   private static final Long ID = 1L;
 
   @MockBean
-  private UserDTOMapper userMapper;
+  private UserMapper userMapper;
 
   @MockBean
   private UserService userService;

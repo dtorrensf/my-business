@@ -5,8 +5,8 @@ import com.business.backend.api.generated.model.UserModel;
 import com.business.backend.domain.dtos.UserDTO;
 import org.mapstruct.Mapper;
 
-@Mapper
-public interface UserDTOMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
   UserDTO convert(NewUserModel newUserModel);
 
   UserDTO convert(UserModel userModel);
