@@ -8,7 +8,7 @@ public interface UserService {
 
   void deleteUser(Long id) throws MyBusinessException;
 
-  void updateUser(UserDTO user);
+  void updateUser(UserDTO user) throws MyBusinessException;
 
-  UserDTO getUser(Long id);
+  UserDTO getUser(Long id) throws MyBusinessException;
 }
