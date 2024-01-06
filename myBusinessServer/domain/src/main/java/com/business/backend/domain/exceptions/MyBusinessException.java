@@ -1,5 +1,8 @@
 package com.business.backend.domain.exceptions;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper = false)
 public class MyBusinessException extends RuntimeException {
 
   private final ErrorItemEnum errorItem;
