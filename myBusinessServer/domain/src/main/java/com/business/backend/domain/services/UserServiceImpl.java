@@ -4,6 +4,7 @@ import com.business.backend.domain.dtos.UserDTO;
 import com.business.backend.domain.exceptions.DuplicatedItemException;
 import com.business.backend.domain.exceptions.ErrorItemEnum;
 import com.business.backend.domain.exceptions.MyBusinessException;
+import com.business.backend.domain.exceptions.NotFoundItemException;
 import com.business.backend.domain.ports.in.UserService;
 import com.business.backend.domain.ports.out.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void deleteUser(Long id) throws MyBusinessException {
-
+    var user = this.getUserById(id);
+    this.repository.deleteUser(user);
   }
 
   @Override
@@ -49,5 +51,21 @@ public class UserServiceImpl implements UserService {
           ErrorItemEnum.USER,
           String.format("The user %s already exists!", email)
       );
+  }
+
+  /**
+   * Checks if a user id exists on Database
+   *
+   * @param id the user id
+   * @throws NotFoundItemException if the user id is not present on Database
+   */
+  private UserDTO getUserById(Long id) throws NotFoundItemException {
+    var user = this.repository.findUserById(id);
+    if (user == null)
+      throw new NotFoundItemException(
+          ErrorItemEnum.USER,
+          String.format("The user with id: %d doesn't exists!", id)
+      );
+    return user;
   }
 }
